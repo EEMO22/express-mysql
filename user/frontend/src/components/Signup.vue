@@ -21,6 +21,7 @@ import axios from 'axios';
 export default {
     methods: {
         signUp: function (event) {
+            console.log({ user: this.user });
             axios.post('/api/users/signup', {
                 user: this.user,
             })

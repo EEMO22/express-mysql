@@ -33,13 +33,13 @@ router.post('/signup', function (req, res) {
     'user_email': req.body.user.user_email,
     'user_password': req.body.user.user_password
   };
-  connection.query(`SELECT user_email FROM users WHERE user_email ${user.user_email}`,
+  connection.query(`'SELECT user_email FROM users WHERE user_email ${user.user_email}''`,
     function (err, row) {
       if (row[0] == undefined) {
         const salt = bcrypt.genSaltSync();
         const encryptedPassword = bcrypt.hashSync(user.user_password, salt);
         connection.query
-          (`INSERT INTO users (user_email, user_name, user_password) VALUES (${user.user_email}, ${user.user_name}, ${encryptedPassword})`,
+          (`'INSERT INTO \`web-order\`.users (user_email, user_name, user_password) VALUES (${user.user_email}, ${user.user_name}, ${encryptedPassword})'`,
             user, function (err, row2) {
               if (err) throw err;
             });
@@ -61,7 +61,7 @@ router.post('/login', function (req, res) {
     'user_email': req.body.user.user_email,
     'user_password': req.body.user.user_password
   };
-  connection.query(`SELECT user_email, user_password FROM users WHERE user_email = ${user.user_email}`, function (err, row) {
+  connection.query(`'SELECT user_email, user_password FROM users WHERE user_email = ${user.user_email}'`, function (err, row) {
     if (err) {
       res.json({  //  아이디 없음
         success: false,
