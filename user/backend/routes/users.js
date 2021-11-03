@@ -3,13 +3,14 @@ var router = express.Router();
 const bcrypt = require('bcryptjs');
 
 let mysql = require('mysql');
+const { query } = require('express');
 
 let connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
   user: 'root',
   password: '1234',
-  database: 'web-order'
+  database: 'web_order'
 });
 
 connection.connect((err) => {
@@ -21,7 +22,7 @@ connection.connect((err) => {
 });
 
 router.get('/', function (req, res) {
-  connection.query('SELECT * FROM users', function (err, rows) {
+  connection.query('SELECT * FROM web_order.users', function (err, rows) {
     if (err) throw err;
     res.send(rows);
   });
@@ -33,14 +34,16 @@ router.post('/signup', function (req, res) {
     'user_email': req.body.user.user_email,
     'user_password': req.body.user.user_password
   };
-  connection.query(`'SELECT user_email FROM users WHERE user_email ${user.user_email}''`,
+  connection.query('SELECT user_email FROM web_order.users WHERE user_email = ?',
+  [user.user_email],
     function (err, row) {
       if (row[0] == undefined) {
         const salt = bcrypt.genSaltSync();
         const encryptedPassword = bcrypt.hashSync(user.user_password, salt);
         connection.query
-          (`'INSERT INTO \`web-order\`.users (user_email, user_name, user_password) VALUES (${user.user_email}, ${user.user_name}, ${encryptedPassword})'`,
-            user, function (err, row2) {
+          ('INSERT INTO web_order.users (user_email, user_name, user_password) VALUES (?, ?, ?)',
+          [user.user_email, user.user_name, encryptedPassword],
+          function (err, row2) {
               if (err) throw err;
             });
             res.json({
@@ -61,7 +64,9 @@ router.post('/login', function (req, res) {
     'user_email': req.body.user.user_email,
     'user_password': req.body.user.user_password
   };
-  connection.query(`'SELECT user_email, user_password FROM users WHERE user_email = ${user.user_email}'`, function (err, row) {
+  connection.query('SELECT user_email, user_password FROM web_order.users WHERE user_email = ?',
+  [user.user_email],
+  function (err, row) {
     if (err) {
       res.json({  //  아이디 없음
         success: false,

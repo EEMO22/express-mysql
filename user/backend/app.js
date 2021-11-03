@@ -16,7 +16,7 @@ let connection = mysql.createConnection({
   port: 3306,
   user: 'root',
   password: '1234',
-  database: 'web-order'
+  database: 'web_order'
 });
 connection.connect(function(err) {
   if (err) {
