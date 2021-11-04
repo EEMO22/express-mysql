@@ -30,21 +30,22 @@ router.get('/', function (req, res) {
 
 router.post('/signup', function (req, res) {
   const user = {
-    'user_name': req.body.user.user_name,
-    'user_email': req.body.user.user_email,
-    'user_password': req.body.user.user_password
+    'user_name': req.body.user_name,
+    'user_email': req.body.user_email,
+    'user_password': req.body.user_password
   };
   connection.query('SELECT user_email FROM web_order.users WHERE user_email = ?',
-  [user.user_email],
+  [user_email],
     function (err, row) {
       if (row[0] == undefined) {
         const salt = bcrypt.genSaltSync();
-        const encryptedPassword = bcrypt.hashSync(user.user_password, salt);
+        const encryptedPassword = bcrypt.hashSync(user_password, salt);
         connection.query
           ('INSERT INTO web_order.users (user_email, user_name, user_password) VALUES (?, ?, ?)',
-          [user.user_email, user.user_name, encryptedPassword],
+          [user_email, user_name, encryptedPassword],
           function (err, row2) {
               if (err) throw err;
+              console.log(row2);
             });
             res.json({
               success: true,

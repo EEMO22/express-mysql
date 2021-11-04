@@ -9,6 +9,7 @@
                 <dd>{{ user.user_name }}</dd>
             </dl>
         </div>
+    </div>
 </template>
 <script>
 import axios from 'axios';
@@ -16,13 +17,13 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            users: []
-        }
+            users: [],
+        };
     },
     created() {
         axios.get('/api/users').then((response) => {
             this.users = response.data;
-        })
-    }
-}
+        });
+    },
+};
 </script>
