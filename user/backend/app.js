@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 
 var app = express();
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 app.use('/api/users', usersRouter);
 
 let mysql = require('mysql');
