@@ -30,7 +30,7 @@ export default {
                 console.log(userData);
                 await signUp(userData);
             } catch (error) {
-                console.log(error.res);
+                console.log('error: ', error.res);
             }
         },
     },

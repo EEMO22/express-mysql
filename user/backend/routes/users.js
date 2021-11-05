@@ -3,7 +3,6 @@ var router = express.Router();
 const bcrypt = require('bcryptjs');
 
 let mysql = require('mysql');
-const { query } = require('express');
 
 let connection = mysql.createConnection({
   host: 'localhost',

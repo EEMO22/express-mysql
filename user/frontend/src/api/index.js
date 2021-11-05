@@ -4,14 +4,16 @@ const axiosInstance = axios.create({
     baseURL: 'http://localhost:3000/',
 });
 
-const header = {
-    'Content-type': 'application/json; charset=UTF-8',
+const config = {
+    headers: {
+        'Content-type': 'application/json',
+    },
 };
 
 axios.defaults.headers.post = null;
 
 function signUp(userData) {
-    return axiosInstance.post('api/users/signup', userData, { header });
+    return axiosInstance.post('api/users/signup', userData, config);
 }
 
 export default { signUp };
