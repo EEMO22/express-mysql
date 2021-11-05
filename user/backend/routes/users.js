@@ -35,15 +35,15 @@ router.post('/signup', function (req, res) {
     'user_password': req.body.user_password
   };
   connection.query('SELECT user_email FROM web_order.users WHERE user_email = ?',
-  [user.user_email],
+  user.user_email,
     function (err, row) {
-      if (row[0] == undefined) {
-        const salt = bcrypt.genSaltSync();
-        const encryptedPassword = bcrypt.hashSync(user.user_password, salt);
-        console.log(encryptedPassword);
+      if (row[0] === undefined) {
+        // const salt = bcrypt.genSaltSync();
+        // const encryptedPassword = bcrypt.hashSync(user.user_password, salt);
+        // console.log(encryptedPassword);
         connection.query
           ('INSERT INTO web_order.users (user_email, user_name, user_password) VALUES (?, ?, ?)',
-          [user.user_email, user.user_name, encryptedPassword],
+          [user.user_email, user.user_name, user.user_password],
           function (err, row2) {
               if (err) throw err;
             });
