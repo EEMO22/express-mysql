@@ -28,11 +28,13 @@ router.get('/', function (req, res) {
 });
 
 router.post('/signup', function (req, res) {
+  console.log('req.body on Back: ', req.body);
   const user = {
     'user_email': req.body.user_email,
     'user_name': req.body.user_name,
     'user_password': req.body.user_password
   };
+  console.log('user to MySQL: ', user);
   connection.query('SELECT user_email FROM web_order.users WHERE user_email = ?',
   user.user_email,
     function (err, row) {
