@@ -38,7 +38,12 @@ export default {
                 };
                 const { data } = await (axios.post('api/users/signup', userData, config));
                 // const { data } = await signUp(userData);
-                alert(data.message);
+                if (data.message === true) {
+                    alert(data.message);
+                    this.$router.push('/login');
+                } else {
+                    alert(data.message);
+                }
             } catch (error) {
                 console.log('error on Front: ', error.res);
             }

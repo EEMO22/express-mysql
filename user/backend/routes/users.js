@@ -63,8 +63,8 @@ router.post('/signup', function (req, res) {
 
 router.post('/login', function (req, res) {
   const user = {
-    'user_email': req.body.user.user_email,
-    'user_password': req.body.user.user_password
+    'user_email': req.body.user_email,
+    'user_password': req.body.user_password
   };
   connection.query('SELECT user_email, user_password FROM web_order.users WHERE user_email = ?',
   [user.user_email],
